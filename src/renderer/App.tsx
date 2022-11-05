@@ -32,6 +32,30 @@ const Hello = () => {
     }
   }, [faceState, faces]);
 
+  // key binding: if state is 'complete', then 1-5 key will be enabled
+  useEffect(() => {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (faceState.state === 'complete') {
+        const { key } = e;
+        if (key === '1') {
+          setFaceState({ ...faceState, face: faces[0].emoji });
+        } else if (key === '2') {
+          setFaceState({ ...faceState, face: faces[1].emoji });
+        } else if (key === '3') {
+          setFaceState({ ...faceState, face: faces[2].emoji });
+        } else if (key === '4') {
+          setFaceState({ ...faceState, face: faces[3].emoji });
+        } else if (key === '5') {
+          setFaceState({ ...faceState, face: faces[4].emoji });
+        }
+      }
+    };
+    window.addEventListener('keydown', keydownHandler);
+    return () => {
+      window.removeEventListener('keydown', keydownHandler);
+    };
+  }, [faceState, faces]);
+
   return (
     <div>
       {faceState.state === 'setting' && (
@@ -87,9 +111,9 @@ const Hello = () => {
             <div
               style={{
                 // background Image にfaceState.faceと同じfacesのemojiと該当するobjectのlocationを設定する
-                backgroundImage: `url(file:///${
-                  faces.find((face) => face.emoji === faceState.face)?.location
-                })`,
+                backgroundImage: `url(file:///${faces
+                  .find((face) => face.emoji === faceState.face)
+                  ?.location.replaceAll('\\', '/')})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
