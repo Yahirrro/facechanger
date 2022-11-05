@@ -24,7 +24,10 @@ const Hello = () => {
 
   useEffect(() => {
     // facesが全てlocationが設定されたらstateを'complete'にする
-    if (faces.every((face) => face.location !== '')) {
+    if (
+      faceState.state === 'setting' &&
+      faces.every((face) => face.location !== '')
+    ) {
       setFaceState({ ...faceState, state: 'complete' });
     }
   }, [faceState, faces]);
@@ -84,7 +87,7 @@ const Hello = () => {
             <div
               style={{
                 // background Image にfaceState.faceと同じfacesのemojiと該当するobjectのlocationを設定する
-                backgroundImage: `url(file://${
+                backgroundImage: `url(file:///${
                   faces.find((face) => face.emoji === faceState.face)?.location
                 })`,
                 backgroundSize: 'cover',
