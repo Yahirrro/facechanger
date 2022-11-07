@@ -80,6 +80,11 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
       webSecurity: false,
     },
+
+    // if use mac
+
+    // titleBarStyle: 'hidden',
+    // titleBarOverlay: true,
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
